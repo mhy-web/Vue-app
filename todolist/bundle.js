@@ -286,45 +286,37 @@ var app = new _vue2.default({
     data: {
         newTodo: '',
         todoList: [],
-        currentUser: null,
         actionType: 'signUp',
         formData: {
             username: '',
             password: ''
-        }
-    },
-    created: function created() {
-        this.currentUser = this.getCurrentUser();
-        this.fetchTodos();
+        },
+        currentUser: null
     },
     methods: {
         fetchTodos: function fetchTodos() {
             var _this = this;
 
             //登陆后读取数据
-            console.log('调用了fetchTodos');
             if (this.currentUser) {
+                console.log('this.currentUser is:');
+                console.log(this.currentUser);
                 var query = new _leancloudStorage2.default.Query('AllTodos');
-                console.log('query===>' + query);
                 query.find().then(function (todos) {
                     var avAllTodos = todos[0];
-                    var id = avAlltodos.id;
-                    console.log('id===>' + id);
-                    _this.todoList = JSON.parse(avAlltodos.attributes.content);
+                    var id = avAllTodos.id;
+                    console.log('当前id：' + id);
+                    _this.todoList = JSON.parse(avAllTodos.attributes.content);
                     _this.todoList.id = id;
-                    console.log('fetch ,,,有 id 就显示这里');
                 }, function (error) {
                     console.log(error);
-                    console.log('fetch,,error,出错了没报错吗');
                 });
-            } else {
-                console.log('没有id 啊，错了');
             }
-            console.log('fetch运行到最后一行了');
         },
         updateTodos: function updateTodos() {
             var dataString = JSON.stringify(this.todoList);
             var avTodos = _leancloudStorage2.default.Object.createWithoutData('AllTodos', this.todoList.id);
+            console.log('update:' + this.todoList.id);
             avTodos.set('content', dataString);
             avTodos.save().then(function () {
                 console.log('更新成功!');
@@ -399,8 +391,8 @@ var app = new _vue2.default({
                     createdAt = current.createdAt,
                     username = current.attributes.username;
 
-                return { id: id, username: username, createdAt: createdAt };
                 console.log({ id: id, username: username, createdAt: createdAt });
+                return { id: id, username: username, createdAt: createdAt };
             } else {
                 return null;
             }
@@ -410,6 +402,10 @@ var app = new _vue2.default({
             this.currentUser = null;
             window.location.reload();
         }
+    },
+    created: function created() {
+        this.currentUser = this.getCurrentUser();
+        this.fetchTodos();
     }
 });
 

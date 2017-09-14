@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import AV from 'leancloud-storage'
 import style from './style.css'
-var APP_ID = 'bOVGbcb9kXOqatTjMdljoUSY-gzGzoHsz';
-var APP_KEY = 'WIDiOtVcxeep47n5EuSVFC6a';
+
+let APP_ID = 'bOVGbcb9kXOqatTjMdljoUSY-gzGzoHsz';
+let APP_KEY = 'WIDiOtVcxeep47n5EuSVFC6a';
 AV.init({
   appId: APP_ID,
   appKey: APP_KEY
@@ -13,43 +14,34 @@ var app = new Vue({
     data: {
         newTodo: '',
         todoList: [],
-        currentUser: null,
         actionType: 'signUp',
         formData: {
             username: '',
             password: ''
-        }
-    },
-    created: function(){
-        this.currentUser = this.getCurrentUser()
-        this.fetchTodos()
+        },
+        currentUser: null
     },
     methods: {
         fetchTodos: function(){     //登陆后读取数据
-            console.log('调用了fetchTodos')
             if(this.currentUser){
+                console.log('this.currentUser is:')
+                console.log(this.currentUser)
                 var query = new AV.Query('AllTodos')
-                console.log('query===>'+query)
-                query.find()
-                    .then((todos) => {
+                query.find().then((todos) => {
                         let avAllTodos = todos[0]
-                        let id = avAlltodos.id
-                        console.log('id===>'+id)
-                        this.todoList = JSON.parse(avAlltodos.attributes.content)
+                        let id = avAllTodos.id
+                        console.log('当前id：'+id)
+                        this.todoList = JSON.parse(avAllTodos.attributes.content)
                         this.todoList.id = id
-                        console.log('fetch ,,,有 id 就显示这里')
                     }, function(error){
                         console.log(error)
-                        console.log('fetch,,error,出错了没报错吗' )
                     })
-            }else{
-                console.log('没有id 啊，错了')
             }
-            console.log('fetch运行到最后一行了')
         },
         updateTodos: function(){
             let dataString = JSON.stringify(this.todoList)
             let avTodos = AV.Object.createWithoutData('AllTodos', this.todoList.id)
+            console.log('update:'+this.todoList.id);
             avTodos.set('content', dataString)
             avTodos.save().then(() => {
                 console.log('更新成功!')
@@ -60,8 +52,8 @@ var app = new Vue({
             var AVTodos = AV.Object.extend('AllTodos')
             var avTodos = new AVTodos()
             var acl = new AV.ACL()
-            acl.setReadAccess(AV.User.current(), true) //只有这个用户能读
-            acl.setWriteAccess(AV.User.current(), true) //只有这个用户能写
+            acl.setReadAccess(AV.User.current(),true) //只有这个用户能读
+            acl.setWriteAccess(AV.User.current(),true) //只有这个用户能写
 
             avTodos.set('content', dataString)
             avTodos.setACL(acl) //设置访问权限
@@ -115,8 +107,8 @@ var app = new Vue({
             let current = AV.User.current()
             if(current){
                 let {id, createdAt, attributes: {username}} = current
-                return {id, username, createdAt}
                 console.log({id, username, createdAt})
+                return {id, username, createdAt}
             }else{
                 return null
             }
@@ -126,5 +118,9 @@ var app = new Vue({
             this.currentUser = null
             window.location.reload()
         }
-    }
+    },
+    created: function(){
+        this.currentUser = this.getCurrentUser()
+        this.fetchTodos()
+    },
 })
