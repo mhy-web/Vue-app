@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import AV from 'leancloud-storage'
 import style from './style.css'
@@ -21,16 +22,15 @@ var app = new Vue({
         },
         currentUser: null
     },
+
     methods: {
-        fetchTodos: function(){     //登陆后读取数据
+        fetchTodos: function(){
             if(this.currentUser){
-                console.log('this.currentUser is:')
-                console.log(this.currentUser)
-                var query = new AV.Query('AllTodos')
-                query.find().then((todos) => {
+                let query = new AV.Query('AllTodos')
+                query.find()
+                    .then((todos) => {
                         let avAllTodos = todos[0]
                         let id = avAllTodos.id
-                        console.log('当前id：'+id)
                         this.todoList = JSON.parse(avAllTodos.attributes.content)
                         this.todoList.id = id
                     }, function(error){
@@ -41,17 +41,17 @@ var app = new Vue({
         updateTodos: function(){
             let dataString = JSON.stringify(this.todoList)
             let avTodos = AV.Object.createWithoutData('AllTodos', this.todoList.id)
-            console.log('update:'+this.todoList.id);
             avTodos.set('content', dataString)
             avTodos.save().then(() => {
                 console.log('更新成功!')
             })
         },
+
         saveTodos: function(){
             let dataString = JSON.stringify(this.todoList)
-            var AVTodos = AV.Object.extend('AllTodos')
-            var avTodos = new AVTodos()
-            var acl = new AV.ACL()
+            let AVTodos = AV.Object.extend('AllTodos')
+            let avTodos = new AVTodos()
+            let acl = new AV.ACL()
             acl.setReadAccess(AV.User.current(),true) //只有这个用户能读
             acl.setWriteAccess(AV.User.current(),true) //只有这个用户能写
 
@@ -117,10 +117,11 @@ var app = new Vue({
             AV.User.logOut()
             this.currentUser = null
             window.location.reload()
-        }
+        },
     },
     created: function(){
         this.currentUser = this.getCurrentUser()
         this.fetchTodos()
-    },
+    }
 })
+

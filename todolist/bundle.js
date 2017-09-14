@@ -79,19 +79,16 @@
 	        },
 	        currentUser: null
 	    },
+
 	    methods: {
 	        fetchTodos: function fetchTodos() {
 	            var _this = this;
 
-	            //登陆后读取数据
 	            if (this.currentUser) {
-	                console.log('this.currentUser is:');
-	                console.log(this.currentUser);
 	                var query = new _leancloudStorage2.default.Query('AllTodos');
 	                query.find().then(function (todos) {
 	                    var avAllTodos = todos[0];
 	                    var id = avAllTodos.id;
-	                    console.log('当前id：' + id);
 	                    _this.todoList = JSON.parse(avAllTodos.attributes.content);
 	                    _this.todoList.id = id;
 	                }, function (error) {
@@ -102,12 +99,12 @@
 	        updateTodos: function updateTodos() {
 	            var dataString = JSON.stringify(this.todoList);
 	            var avTodos = _leancloudStorage2.default.Object.createWithoutData('AllTodos', this.todoList.id);
-	            console.log('update:' + this.todoList.id);
 	            avTodos.set('content', dataString);
 	            avTodos.save().then(function () {
 	                console.log('更新成功!');
 	            });
 	        },
+
 	        saveTodos: function saveTodos() {
 	            var _this2 = this;
 
