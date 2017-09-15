@@ -1,8 +1,7 @@
 
 import Vue from 'vue'
 import AV from 'leancloud-storage'
-import style from './style.css'
-
+// import style from 'style'
 let APP_ID = 'bOVGbcb9kXOqatTjMdljoUSY-gzGzoHsz';
 let APP_KEY = 'WIDiOtVcxeep47n5EuSVFC6a';
 AV.init({
@@ -72,10 +71,14 @@ var app = new Vue({
             }
         },
         addTodo: function(){
+            if(this.newTodo==''){
+                alert('请输入内容!')
+                return
+            }
             this.todoList.push({
                 title: this.newTodo,
-                createdAt: new Date(),
-                done: false
+                createAt: this.formatTime(),
+                isFinished: false
             })
             this.newTodo = ''
             this.saveOrUpdateTodos()
@@ -118,6 +121,65 @@ var app = new Vue({
             this.currentUser = null
             window.location.reload()
         },
+        toggleFinish: function(todo){
+            todo.isFinished = !todo.isFinished
+            console.log(todo.isFinished)
+            this.saveOrUpdateTodos()
+        },
+        formatTime: function(){
+            let dt = new Date(),
+                yy = dt.getFullYear(),
+                mm = dt.getMonth(),
+                dd = dt.getDate(),
+                hh = dt.getHours(),
+                ms = dt.getMinutes(),
+                dtArray = []
+            dtArray.push(yy, mm, dd, hh, ms)
+            for(let i = 0; i<dtArray.lenght; i++){
+                if(dtArray[i]<10){
+                    dtArray = '0' + dtArray[i]
+                }
+            }
+            let tpl = dtArray[0] + '/' +dtArray[1] + '/' + dtArray[2] +'/'+dtArray[3]+':'+dtArray[4]
+            return tpl
+        },
+        clearAll: function(){
+            this.todoList = []
+        },
+        saveOldList: function(){
+            this.oldList = this.todoList
+        },
+        filterAll: function(){
+            if(this.oldList === undefined){
+                return
+            }else{
+                this.todoList = this.oldList
+            }
+        },
+        filterTodo: function(){
+            this.filterAll()
+            this.saveOldList()
+            let tdList = []
+            for(let i=0; i<this.todoList.length; i++){
+                let result = this.todoList[i]
+                if(result.isFinished==false){
+                    tdList.push(result)
+                }
+            }
+            this.todoList = tdList
+        },
+        filterFinished: function(){
+            this.filterAll()
+            this.saveOldList()
+            let finList = []
+            for(let i=0; i<this.todoList.length; i++){
+                let result =  this.todoList[i]
+                if(result.isFinished==true){
+                    finList.push(result)
+                }
+            }
+            this.todoList = finList
+        }
     },
     created: function(){
         this.currentUser = this.getCurrentUser()

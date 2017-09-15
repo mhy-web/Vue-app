@@ -1,58 +1,89 @@
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset=utf-8>
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./font/iconfont.css">
 </head>
 <body>
     <div id="app">
         <section id="signInAndSignUp" v-if="!currentUser">
-            <div>
-                <label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
-                <label><input type="radio" name="type" v-model="actionType" value="login">登录</label>
-            </div>
-            <div class="signUp" v-if="actionType == 'signUp'">
-                <form v-on:submit.prevent='signUp'>
-                    <div class="formRow">
-                        用户名<input type="text" v-model="formData.username">
+            <figure>
+                <header>ToDoList</header>
+                <div class="login-ct">
+                    <div class="tab">
+                        <label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
+                        <label><input type="radio" name="type" v-model="actionType" value="login">登录</label>
                     </div>
-                    <div class="formRow">
-                        密码<input type="password" v-model="formData.password">
+                    <div class="signUp" v-if="actionType == 'signUp'">
+                        <form v-on:submit.prevent='signUp'>
+                            <div class="formRow">
+                                <span class="sign-item">用户名</span>
+                                <input type="text" v-model="formData.username"  class="sign-item" placeholder="请输入用户名">
+                            </div>
+                            <div class="formRow">
+                                <span  class="sign-item">密码</span>
+                                <input type="password" v-model="formData.password"  class="sign-item" placeholder="请输入密码">
+                            </div>
+                            <div class="formActions sign-item">
+                                <input type="submit" value="注册">
+                            </div>
+                        </form>
                     </div>
-                    <div class="formActions">
-                        <input type="submit" value="注册">
+                    <div class="login" v-if="actionType == 'login'">
+                       <form v-on:submit.prevent='login'>
+                            <div class="formRow">
+                                <span class="sign-item">用户名</span>
+                                <input type="text" v-model="formData.username"  class="sign-item" placeholder="请输入用户名">
+                            </div>
+                            <div class="formRow">
+                                <span  class="sign-item">密码</span>
+                                <input type="password" v-model="formData.password"  class="sign-item" placeholder="请输入密码">
+                            </div>
+                            <div class="formActions sign-item">
+                                <input type="submit" value="登录">
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-            <div class="login" v-if="actionType == 'login'">
-               <form v-on:submit.prevent='login'>
-                    <div class="formRow">
-                        用户名<input type="text" v-model="formData.username">
-                    </div>
-                    <div class="formRow">
-                        密码<input type="password" v-model="formData.password">
-                    </div>
-                    <div class="formActions">
-                        <input type="submit" value="登录">
-                    </div>
-                </form>
-            </div>
+                </div>
+            </figure>
         </section>
-        <section id="todo" v-if="currentUser">
-            <p><button v-on:click="logout">登出</button></p>
-            <div class="newTask">
-                <input type="text" v-model="newTodo" v-on:keypress.enter="addTodo" placeholder="edit me">
+        <section id="todo" v-if="currentUser" class="clearfix">
+            <div class="sidebar">
+                <div class="sidebar-wrap">
+                    <h1>TodoList</h1>
+                    <h3>筛选</h3>
+                    <ul class="catlist">
+                        <li @click="filterAll"><i class="iconfont">&#xe60f;</i>全部</li>
+                        <li @click="filterTodo"><i class="iconfont">&#xe604;</i>未完成</li>
+                        <li @click="filterFinished"><i class="iconfont">&#xe66e;</i>已完成</li>
+                    </ul>
+                </div>
             </div>
-            <ol class="todos">
-                <li v-for="todo in todoList">
-                    <input type="checkbox" v-model="todo.done"> {{todo.title}}
-                    <span v-if="todo.done">已完成</span>
-                    <span v-else>未完成</span>
-
-                    <button v-on:click="removeTodo(todo)">X</button>
-                </li>
-            </ol>
+            <div class="main">
+                <div class="newTask clearfix">
+                    <input type="text" v-model="newTodo" v-on:keypress.enter="addTodo" placeholder="在此输入待办事项">
+                    <span @click="addTodo" class="btn add">添加事项</span>
+                    <span @click="clearAll" class="btn empty">清空列表</span>
+                    <p>您好, {{currentUser.username}}
+                        <button v-on:click="logout">登出</button>
+                    </p>
+                </div>
+                <ul class="todos">
+                    <li v-for="todo in todoList" :class="{finished: todo.isFinished}" class="clearfix">
+                        <span class=" active"></span>
+                        <span @click="toggleFinish(todo)" :class="{finished: todo.isFinished}">{{todo.title}}</span>
+                        <span class="finish" v-if="todo.isFinished"></span>
+                        <span class="finish" v-else></span>
+                        <span v-on:click="removeTodo(todo)">
+                            <i class="iconfont">&#xe61c;</i>
+                        </span>
+                        <span>{{todo.createAt}}</span>
+                    </li>
+                </ul>
+            </div>
         </section>
     </div>
-
     <script src="bundle.js"></script>
 </body>
 </html>

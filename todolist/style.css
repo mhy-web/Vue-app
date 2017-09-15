@@ -1,0 +1,351 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.clearfix:after{
+    content:'';
+    display: block;
+    overflow: hidden;
+}
+#signInAndSignUp{
+    background-color: #353f55;
+    width: 100%;
+    height: 100%;
+}
+#signInAndSignUp header{
+    font-size: 30px;
+    line-height: 60px;
+    color: #fff;
+    display: block;
+    font-weight: bold;
+    text-align: center;
+}
+#signInAndSignUp figure{
+    width: 300px;
+    position: fixed;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+.login-ct{
+    background:#ccc;
+    padding: 15px 0;
+    border-radius: 10px;
+    background: #EEF9FE;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.4), -3px -3p 5px rgba(0,0,0,0.4);
+}
+.tab{
+    display: flex;
+    justify-content: center;
+}
+.tab label{
+    width: 80px;
+    text-align: center;
+    font-size: 16px;
+    padding:10px 20px;
+}
+.tab label:hover{
+    color:#000;
+    font-weight:700;
+}
+.tab label input{
+    display: none;
+}
+.signUp,
+.login{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.signUp form,
+.login form{
+    width: 80%;
+}
+.formRow,
+.formActions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.formRow input{
+    padding-left:10px;
+    background: #FAFFBD;
+    border-radius: 5px;
+    border:1px solid rgba(100, 85, 85, 0.4);
+    outline: none;
+    height: 40px;
+    font-size: 14px;
+}
+.formRow span{
+    height: 30px;
+    padding-top: 10px;
+    font-size: 16px;
+    color: #725f5f;
+}
+.formActions{
+    padding: 15px 0;
+}
+.formActions input{
+    font-size: inherit;
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    border-radius: 10px;
+    outline: none;
+    background: #65bf4f;
+    border: 2px solid #B0E559;
+    color: #fff;
+    box-shadow: 3px 3px 8px rgba(198, 202, 217, 0.5),-1px -1px 8px rgba(198, 202, 217, 0.5);
+    cursor: pointer;
+}
+.signUp .formActions input{
+    background: #ce8c0f;
+    border:#9E9E9E;
+}
+.signUp .formActions input:hover{
+    background: #986607;
+}
+.login .formActions input{
+    background: #65bf4f;
+}
+.login .formActions input:hover{
+    background: #28a809;
+}
+.sign-item{
+    display: block;
+    height: 50px;
+    width: 100%;
+}
+/*登录页面结束，以下为主页面*/
+#todo{
+    width: 100%;
+}
+.sidebar{
+    float: left;
+    width: 20%;
+    height: 100%;
+    background-color: #353f55;
+    color:#EEE;
+}
+.sidebar-wrap{
+    margin: 30px auto;
+    width:120px;
+}
+.sidebar h1{
+    height: 80px;
+    line-height: 80px;
+}
+.sidebar h3{
+    height: 50px;
+    line-height: 50px;
+}
+
+.catlist li{
+    height: 50px;
+    line-height: 50px;
+    list-style: none;
+    text-align: left;
+    cursor:pointer;
+    transition: all 0.3s;
+}
+.catlist li:hover{
+    margin-left:10px;
+    color: #ca3c3c;
+}
+.sider i{
+    font-size: 20px;
+    width: 40px;
+}
+.main{
+    float: left;
+    width: 80%;
+    padding-top:50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.newTask{
+    width: 80%;
+}
+.newTask input,
+.newTask .btn,
+.newTask p{
+    display: block;
+    height: 50px;
+    text-align: center;
+}
+.newTask input{
+    float: left;
+    line-height: 50px;
+    width: 300px;
+    font-size:20px;
+    text-align: left;
+    padding-left:10px;
+    border:1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+}
+
+.newTask .btn{
+    float: left;
+    width:100px;
+    margin-left: 10px;
+    line-height: 40px;
+    height: 40px;
+    margin-top: 5px ;
+    font-size:18px;
+    border-radius: 5px;
+    color:#EEE;
+    cursor: pointer;
+    opacity: 0.8;
+}
+.newTask .btn:hover{
+    opacity: 1;
+}
+.newTask .add{
+    background:rgb(25, 151, 25);
+}
+.newTask .empty{
+    background:rgb(219, 4, 4);
+}
+.newTask p{
+    float: right;
+    line-height: 50px;
+    font-size: 14px;
+    color:#333;
+}
+.newTask p button{
+    width: 50px;
+    height: 30px;
+    margin-left:10px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px  solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #fbfefb;
+    color:#333;
+    cursor: pointer;
+}
+.newTask p button:hover{
+    background:#CBFFCB;
+}
+.todos{
+    display: block;
+    width: 80%;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 1px 3px 5px rgba(198, 202, 217, 0.5), -1px 1px 5px rgba(198, 202, 217, 0.5)
+}
+.todos li{
+    height: 60px;
+    padding:0 15px;
+    list-style: none;
+    display:block;
+    background:#fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.todos li:hover{
+    background:#eee;
+}
+.todos li>span{
+    display:inline-block;
+    box-sizing:border-box;
+    font-size: 20px;
+}
+.todos li>span:nth-child(1){
+    float:left;
+    margin-top:25px;
+    margin-right:20px;
+    width: 10px;
+    height: 10px;
+    background: #15E415;
+    border-radius: 50%;
+}
+.todos li>span:nth-child(2){
+    float:left;
+    min-height: 60px;
+    max-width:60%;
+    line-height:60px;
+    cursor: pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.todos li>span:nth-child(4){
+    float:right;
+    margin-top:10px;
+    color:#ccc;
+}
+.todos li>span:nth-child(5){
+    float:right;
+    margin-top:30px;
+    margin-right:20px;
+    font-size:14px;
+    height:20px;
+    line-height:20px;
+    color:#ccc;
+}
+.todos li:last-child{
+    border-bottom:none;
+}
+
+.todos>.finished{
+    background:#eee;
+}
+.todos>.finished>.active{
+    background: #eee;
+    border:1px solid #ccc;
+}
+.todos li>.finished{
+    transition:all 0.5s;
+    color:#ccc;
+    text-decoration:line-through;
+}
+
+.todos .iconfont{
+    display: inline-block;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    width: 50px;
+    height: 40px;
+    line-height: 40px;
+    background:#f8de67;
+    color: #fff;
+    border-radius: 5px;
+}
+.todos .iconfont:hover{
+    background:#BEBE0C;
+}
+@media (max-width: 400px) {
+    .app{
+        width:400px;
+    }
+    .newTask input{
+        line-height: 30px;
+        width: 150px;
+        font-size:15px;
+        border-radius: 3px;
+    }
+    .newTask .btn{
+        font-size:14px;
+        width:60px;
+        height:30px;
+        margin-left: 3px;
+        line-height: 30px;
+        margin-top: 5px ;
+        font-size:14px;
+    }
+}

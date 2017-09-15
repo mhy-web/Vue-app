@@ -54,12 +54,9 @@
 
 	var _leancloudStorage2 = _interopRequireDefault(_leancloudStorage);
 
-	var _style = __webpack_require__(8);
-
-	var _style2 = _interopRequireDefault(_style);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import style from 'style'
 	var APP_ID = 'bOVGbcb9kXOqatTjMdljoUSY-gzGzoHsz';
 	var APP_KEY = 'WIDiOtVcxeep47n5EuSVFC6a';
 	_leancloudStorage2.default.init({
@@ -132,10 +129,14 @@
 	            }
 	        },
 	        addTodo: function addTodo() {
+	            if (this.newTodo == '') {
+	                alert('请输入内容!');
+	                return;
+	            }
 	            this.todoList.push({
 	                title: this.newTodo,
-	                createdAt: new Date(),
-	                done: false
+	                createAt: this.formatTime(),
+	                isFinished: false
 	            });
 	            this.newTodo = '';
 	            this.saveOrUpdateTodos();
@@ -184,6 +185,65 @@
 	            _leancloudStorage2.default.User.logOut();
 	            this.currentUser = null;
 	            window.location.reload();
+	        },
+	        toggleFinish: function toggleFinish(todo) {
+	            todo.isFinished = !todo.isFinished;
+	            console.log(todo.isFinished);
+	            this.saveOrUpdateTodos();
+	        },
+	        formatTime: function formatTime() {
+	            var dt = new Date(),
+	                yy = dt.getFullYear(),
+	                mm = dt.getMonth(),
+	                dd = dt.getDate(),
+	                hh = dt.getHours(),
+	                ms = dt.getMinutes(),
+	                dtArray = [];
+	            dtArray.push(yy, mm, dd, hh, ms);
+	            for (var i = 0; i < dtArray.lenght; i++) {
+	                if (dtArray[i] < 10) {
+	                    dtArray = '0' + dtArray[i];
+	                }
+	            }
+	            var tpl = dtArray[0] + '/' + dtArray[1] + '/' + dtArray[2] + '/' + dtArray[3] + ':' + dtArray[4];
+	            return tpl;
+	        },
+	        clearAll: function clearAll() {
+	            this.todoList = [];
+	        },
+	        saveOldList: function saveOldList() {
+	            this.oldList = this.todoList;
+	        },
+	        filterAll: function filterAll() {
+	            if (this.oldList === undefined) {
+	                return;
+	            } else {
+	                this.todoList = this.oldList;
+	            }
+	        },
+	        filterTodo: function filterTodo() {
+	            this.filterAll();
+	            this.saveOldList();
+	            var tdList = [];
+	            for (var i = 0; i < this.todoList.length; i++) {
+	                var result = this.todoList[i];
+	                if (result.isFinished == false) {
+	                    tdList.push(result);
+	                }
+	            }
+	            this.todoList = tdList;
+	        },
+	        filterFinished: function filterFinished() {
+	            this.filterAll();
+	            this.saveOldList();
+	            var finList = [];
+	            for (var i = 0; i < this.todoList.length; i++) {
+	                var result = this.todoList[i];
+	                if (result.isFinished == true) {
+	                    finList.push(result);
+	                }
+	            }
+	            this.todoList = finList;
 	        }
 	    },
 	    created: function created() {
@@ -27180,12 +27240,6 @@
 	  return toString.call(arr) == '[object Array]';
 	};
 
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-	
 
 /***/ })
 /******/ ]);
