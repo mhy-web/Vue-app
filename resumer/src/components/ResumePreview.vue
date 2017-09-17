@@ -1,10 +1,7 @@
 <template>
   <div id="resumePreview">
 
-    <button class="button" @click="save">save</button>
-    <router-link class="button" to="/preview">preview</router-link>
-
-    <section data-name="profile" v-if="resume.profile && resume.profile.name">
+    <section data-name="profile" v-show="resume.profile">
       <h1>
         {{resume.profile.name}}
       </h1>
@@ -15,48 +12,48 @@
       </p>
     </section>
 
-    <section data-name="projects" v-if="resume.projects && resume.projects.length > 0">
+    <section data-name="projects" v-show="resume.projects">
       <h2>项目经历</h2>
       <ol>
         <li v-for="item in resume.projects">
           <h3>{{item.name}}</h3>
-          <p v-show="item.details"> {{item.details}} </p>
+          <p v-show="item.content"> {{item.content}} </p>
         </li>
       </ol>
     </section>
 
-    <section data-name="workHistory" v-if="resume.workHistory && resume.workHistory.length > 0">
+    <section data-name="workHistory" v-show="resume.workHistory">
       <h2>工作经历</h2>
       <ol>
         <li v-for="item in resume.workHistory">
           <h3>{{item.company}}</h3>
-          <p v-show="item.details"> {{item.details}} </p>
+          <p v-show="item.content"> {{item.content}} </p>
         </li>
       </ol>
     </section>
 
-    <section data-name="education" v-if="resume.education && resume.education.length > 0">
+    <section data-name="education" v-show="resume.education">
       <h2>毕业院校</h2>
       <ol>
         <li v-for="item in resume.education">
           <h3>{{item.school}}
-            <span v-show="item.details"> - {{item.details}} </span>
+            <span v-show="item.content"> - {{item.content}} </span>
           </h3>
         </li>
       </ol>
     </section>
 
-    <section data-name="awards" v-if="resume.awards && resume.awards.length > 0">
+    <section data-name="awards" v-show="resume.awards">
       <h2>获奖情况</h2>
       <ol>
         <li v-for="item in resume.awards">
           <h3>{{item.name}}</h3>
-          <p v-show="item.details"> {{item.details}} </p>
+          <p v-show="item.content"> {{item.content}} </p>
         </li>
       </ol>
     </section>
 
-    <section data-name="contacts" v-if="resume.contacts && resume.contacts.length > 0">
+    <section data-name="contacts" v-show="resume.contacts">
       <h2>联系方式</h2>
       <table>
         <tr v-for="item in resume.contacts">
@@ -75,11 +72,6 @@
       resume() {
         return this.$store.state.resume
       }
-    },
-    methods: {
-      save(){
-        this.$store.dispatch('saveResume')
-      }
     }
   }
 </script>
@@ -90,9 +82,9 @@
     * {box-sizing: border-box; font-variant: normal; font-weight: normal;}
     ol{ list-style: none; }
     section + section{ margin-top: 2em; }
-    p{ white-space: pre-line; } 
+    p{ white-space: pre-line; } // 请问为什么要加这一行
     section {
-      > h2:first-child{ background: #ddd; display: inline-block; padding: .2em;
+      > h2:first-child{ background: #ddd; display: inline-block; padding: .2em; 
         margin-bottom: .5em;
       }
     }

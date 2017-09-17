@@ -3,20 +3,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import Resume from 'components/Resume'
-import Preview from 'components/Preview'
+import Hello from 'components/Hello'
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Resume',
-      component: Resume
-    },
-    {
-      path: '/preview',
-      name: 'Preview',
-      component: Preview
+      name: 'Hello',
+      component: Hello
     }
   ]
 })

@@ -1,8 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue' // 思考：在多个文件 import vue ，会怎样
 import objectPath from "object-path"
-import AV from '../lib/leancloud'
-import getAVUser from '../lib/getAVUser'
 
 
 Vue.use(Vuex) // 不写这句话浏览器控制台就会报错，于是我就写了
@@ -14,108 +12,69 @@ export default new Vuex.Store({
       id: '',
       username: ''
     },
-    resumeConfig: [
-      { field: 'profile', icon: 'id', keys: ['name', 'city', 'title', 'birthday'] },
-      { field: 'workHistory', icon: 'work', type: 'array', keys: ['company', 'details'] },
-      { field: 'education', icon: 'book', type: 'array', keys: ['school', 'details'] },
-      { field: 'projects', icon: 'heart', type: 'array', keys: ['name', 'details'] },
-      { field: 'awards', icon: 'cup', type: 'array', keys: ['name', 'details'] },
-      { field: 'contacts', icon: 'phone', type: 'array', keys: ['contact', 'content'] },
-    ],
     resume: {
-      id: ''
+      config: [
+        { field: 'profile', icon: 'id' },
+        { field: 'workHistory', icon: 'work' },
+        { field: 'education', icon: 'book' },
+        { field: 'projects', icon: 'heart' },
+        { field: 'awards', icon: 'cup' },
+        { field: 'contacts', icon: 'phone' },
+      ],
+      profile: {
+        name: '方某某',
+        city: '大城市铁岭',
+        title: '首席装逼师',
+        birthday: '1990-01-01'
+      },
+      workHistory: [
+        {
+          company: '鸡飞狗跳公司', content: `公司总部设在XXXX区，先后在北京、上海成立分公司。专注于移动XXX领域，主打产品XXXXX，它将资讯、报纸、杂志、图片、微信等众多内容，按照用户意愿聚合到一起，实现深度个性化 定制。
+我的主要工作如下:
+1. 完成既定产品需求。
+2. 修复 bug。`
+        },
+        { company: '狗急跳墙责任有限公司', content: `公司总部设在XXXX区，先后在北京、上海成立分公司。专注于移动XXX领域，主打产品XXXXX，它将资讯、报纸、杂志、图片、微信等众多内容，按照用户意愿聚合到一起，实现深度个性化 定制。
+我的主要工作如下:
+1. 完成既定产品需求。
+2. 修复 bug` },
+      ],
+      education: [
+        { school: '黄志诚警官大学', content: '本科' },
+        { school: '韩琛古惑仔高中'},
+      ],
+      projects: [
+        { name: 'project A', content: '文字' },
+        { name: 'project B', content: '文字' },
+      ],
+      awards: [
+        { name: '再来十瓶', content: '连续十次获得「再来一瓶」奖励' },
+        { name: '三好学生'},
+      ],
+      contacts: [
+        { contact: 'phone', content: '13812345678' },
+        { contact: 'qq', content: '12345678' },
+      ],
     }
   },
   mutations: {
-    initState(state, payload) {
-      state.resumeConfig.map((item) => {
-        if (item.type === 'array') {
-          //state.resume[item.field] = [] // 这样写 Vue 无法监听属性变化
-          Vue.set(state.resume, item.field, [])
-        } else {
-          //state.resume[item.field] = {} // 这样写 Vue 无法监听属性变化
-          Vue.set(state.resume, item.field, {})
-          item.keys.map((key) => {
-            //state.resume[item.field][key] = '' // 这样写 Vue 无法监听属性变化
-            Vue.set(state.resume[item.field], key, '')
-          })
-        }
-      })
-      if(payload){
-        Object.assign(state, payload)
-      }
+    initState(state, payload){
+      Object.assign(state, payload)
     },
     switchTab(state, payload) {
       state.selected = payload // 关于 payload 看这里 http://vuex.vuejs.org/zh-cn/mutations.html#提交载荷（payload）
+      localStorage.setItem('state', JSON.stringify(state))
     },
-    updateResume(state, { path, value }) {
+    updateResume(state, {path, value}){
       objectPath.set(state.resume, path, value)
-      localStorage.setItem('resume', JSON.stringify(state.resume))
+      localStorage.setItem('state', JSON.stringify(state))
     },
-    setUser(state, payload) {
+    setUser(state, payload){
       Object.assign(state.user, payload)
     },
-    removeUser(state) {
-      state.user.id = ''
-    },
-    addResumeSubfield(state, { field }) {
-      let empty = {}
-      state.resume[field].push(empty)
-      state.resumeConfig.filter((i) => i.field === field)[0].keys.map((key) => {
-        Vue.set(empty, key, '')
-      })
-    },
-    removeResumeSubfield(state, { field, index }) {
-      state.resume[field].splice(index, 1)
-    },
-    setResumeId(state, { id }) {
-      state.resume.id = id
-    },
-    setResume(state, resume){
-      state.resumeConfig.map(({field})=>{
-        Vue.set(state.resume, field, resume[field])
-      }) 
-      state.resume.id = resume.id
+    removeUser(state){
+      state.user.id = null
     }
-  },
-  actions: {
-    saveResume({ state, commit }, payload) {
-      // 新建一个帖子对象
-      var Resume = AV.Object.extend('Resume')
-      var resume = new Resume()
-      if (state.resume.id) {
-        resume.id = state.resume.id  
-      }
-      resume.set('profile', state.resume.profile)
-      resume.set('workHistory', state.resume.workHistory)
-      resume.set('education', state.resume.education)
-      resume.set('projects', state.resume.projects)
-      resume.set('awards', state.resume.awards)
-      resume.set('contacts', state.resume.contacts)
-      resume.set('owner_id', getAVUser().id)
 
-      var acl = new AV.ACL()
-      acl.setPublicReadAccess(true)
-      acl.setWriteAccess(AV.User.current(), true)
-
-      resume.setACL(acl)
-      resume.save().then(function (response) {
-        if(!state.resume.id){
-          commit('setResumeId', { id: response.id })
-        }
-      }).catch(function (error) {
-        console.log(error)
-      })
-
-    },
-    fetchResume({commit},payload){
-      var query = new AV.Query('Resume');
-      query.equalTo('owner_id', getAVUser().id)
-      query.first().then((resume)=>{
-        if(resume){
-          commit('setResume', {id: resume.id, ...resume.attributes})
-        }
-      })
-    }
   }
 })
