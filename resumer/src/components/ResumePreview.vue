@@ -90,9 +90,9 @@
     * {box-sizing: border-box; font-variant: normal; font-weight: normal;}
     ol{ list-style: none; }
     section + section{ margin-top: 2em; }
-    p{ white-space: pre-line; } // 请问为什么要加这一行
+    p{ white-space: pre-line; } 
     section {
-      > h2:first-child{ background: #ddd; display: inline-block; padding: .2em; 
+      > h2:first-child{ background: #ddd; display: inline-block; padding: .2em;
         margin-bottom: .5em;
       }
     }

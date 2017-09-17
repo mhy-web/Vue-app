@@ -461,7 +461,6 @@ template {
 }
 *{margin:0; padding:0; box-sizing: border-box; }
 *::after, *::before{box-sizing:border-box;}
-@charset "UTF-8";
 svg.icon {
   height: 1em;
   width: 1em;
@@ -510,7 +509,6 @@ svg.icon {
     justify-content: space-between;
     padding: 0 16px;
     width: 100%;
-    /* 试试不加这句会怎样 */
     align-self: center; }
 
 #resumeEditor[data-v-34e96233] {
@@ -524,6 +522,9 @@ svg.icon {
   margin-left: 16px;
 }
 
+@charset "UTF-8";
+/* 自行查阅 scoped 的功能
+ 见：https://cn.vuejs.org/v2/guide/comparison.html#CSS-的组件作用域 */
 #topbar[data-v-a0a88fb8] {
   background: #ffffff;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
@@ -729,4 +730,4 @@ hr[data-v-53358100] {
     padding-right: 1em;
 }
 
-/*# sourceMappingURL=app.cbf98f8cc33e611ad3c718cf8de713b7.css.map*/
+/*# sourceMappingURL=app.756678a83da3fc5bd1eedd94edeadcae.css.map*/

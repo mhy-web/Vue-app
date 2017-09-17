@@ -63,8 +63,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  // 自行查阅 scoped 的功能
-  // 见：https://cn.vuejs.org/v2/guide/comparison.html#CSS-的组件作用域
+   /* 自行查阅 scoped 的功能
+   见：https://cn.vuejs.org/v2/guide/comparison.html#CSS-的组件作用域 */
   #topbar{
     background:#ffffff;
     box-shadow:0 1px 3px 0 rgba(0,0,0,0.25);

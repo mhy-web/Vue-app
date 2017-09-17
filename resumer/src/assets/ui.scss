@@ -5,12 +5,12 @@ svg.icon{
   vertical-align: -0.1em;
   font-size:16px;
 }
-.button{ 
+.button{
   width:72px;
   height:32px;
   border: none;
   cursor: pointer;
-  font-size: 18px; // 设计稿上是 20px，看起来太大，就改成 18px 了
+  font-size: 18px;
   background:#ddd;
   color: #222;
   text-decoration: none;
@@ -40,7 +40,7 @@ svg.icon{
   flex-direction: column;
   background: #EAEBEC;
   >main{
-    flex-grow: 1;  
+    flex-grow: 1;
   }
   >main{
     min-width: 1024px;
@@ -50,7 +50,7 @@ svg.icon{
     display: flex;
     justify-content: space-between;
     padding: 0 16px;
-    width: 100%; /* 试试不加这句会怎样 */
+    width: 100%;
     align-self: center;
   }
 }
