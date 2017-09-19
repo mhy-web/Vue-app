@@ -30,14 +30,13 @@
     store,
     components: { Topbar, ResumeEditor, ResumePreview},
     created() {
-      document.body.insertAdjacentHTML('afterbegin', icons) //
+      document.body.insertAdjacentHTML('afterbegin', icons)
       let state = localStorage.getItem('state')
       if(state){
-        state = JSON.parse(state) 
+        state = JSON.parse(state)
       }
       this.$store.commit('initState', state)
       this.$store.commit('setUser', getAVUser())
-
     }
   }
 </script>
@@ -49,7 +48,7 @@
     flex-direction: column;
     background: #EAEBEC;
     >main{
-      flex-grow: 1;  
+      flex-grow: 1;
     }
     >main{
       min-width: 1024px;
@@ -59,12 +58,10 @@
       display: flex;
       justify-content: space-between;
       padding: 0 16px;
-      width: 100%; /* 试试不加这句会怎样 */
+      width: 100%;
       align-self: center;
     }
   }
-
-
   #resumeEditor{
     min-width: 35%;
     background: #444;
