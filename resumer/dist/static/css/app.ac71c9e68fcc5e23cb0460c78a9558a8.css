@@ -1,5 +1,4 @@
 
-@charset "UTF-8";
 .page {
   height: 100vh;
   display: -ms-flexbox;
@@ -23,7 +22,6 @@
         justify-content: space-between;
     padding: 0 16px;
     width: 100%;
-    /* 试试不加这句会怎样 */
     -ms-flex-item-align: center;
         align-self: center;
 }
@@ -723,4 +721,4 @@ a[data-v-524cd6bc] {
   color: #42b983;
 }
 
-/*# sourceMappingURL=app.213978a52b9a09423fbddfa8ed42056f.css.map*/
+/*# sourceMappingURL=app.ac71c9e68fcc5e23cb0460c78a9558a8.css.map*/
